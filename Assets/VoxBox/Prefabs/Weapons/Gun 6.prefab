@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2178377776600050111}
   - component: {fileID: 8221940949597952575}
   - component: {fileID: 4449847839857986558}
+  - component: {fileID: 2058218307973397246}
   m_Layer: 0
   m_Name: Gun 6
   m_TagString: Untagged
@@ -66,11 +67,28 @@ MonoBehaviour:
   grade: 1
   damage: 5
   fireCooldown: 0.4
-  bulletSpeed: 20
+  bulletSpeed: 70
   isContinuous: 0
   rayExplosionInterval: 1.4
   explosionDamage: 5
   rayRange: 30
+--- !u!114 &2058218307973397246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2232414866344030843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364e3e416e848304c821b011de3c332f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroppedItem
+  rotationSpeed: 50
+  floatSpeed: 2
+  floatHeight: 0.2
+  interactableDistance: 2.5
+  itemData: {fileID: 8221940949597952575}
 --- !u!1 &6005043733050424891
 GameObject:
   m_ObjectHideFlags: 0

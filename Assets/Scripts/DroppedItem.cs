@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DroppedItem : MonoBehaviour
 {
@@ -9,37 +10,40 @@ public class DroppedItem : MonoBehaviour
 
     [Header("상호작용 설정")]
     public float interactableDistance = 2.5f;
-    public ItemData itemData;
+
+    [Header("장착할 무기 프리팹 (손에 쥘 모델)")]
+    public GameObject weaponModelPrefab; // 이 칸에 실제 손에 들릴 무기 모델 프리팹을 넣으세요!
 
     private Vector3 startPos;
     private bool isEquipped = false;
     private float dropTimer = 0f;
     private Transform player;
     private bool playerNearby = false;
+    private WeaponData itemWeaponData;
 
     void Start()
     {
         startPos = transform.position;
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
+
+        itemWeaponData = GetComponent<WeaponData>();
     }
 
     void Update()
     {
         if (isEquipped || player == null) return;
 
-        // 1. 공중에서 회전하며 위아래로 살짝 움직이는 연출
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.World);
         float newY = startPos.y + Mathf.Sin(Time.time * floatSpeed) * floatHeight;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        // 2. 플레이어와의 거리 체크
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= interactableDistance)
         {
             playerNearby = true;
-            // UI에 "F를 눌러 줍기" 표시 가능 (현재는 콘솔 및 키 입력 대기)
-            if (Input.GetKeyDown(KeyCode.F))
+
+            if (Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame)
             {
                 PickUpItem();
             }
@@ -49,7 +53,6 @@ public class DroppedItem : MonoBehaviour
             playerNearby = false;
         }
 
-        // 3. 바닥에 떨어진 후 15초 지나면 소멸
         dropTimer += Time.deltaTime;
         if (dropTimer >= 15f)
         {
@@ -60,14 +63,14 @@ public class DroppedItem : MonoBehaviour
     void PickUpItem()
     {
         PlayerShooter shooter = player.GetComponent<PlayerShooter>();
-        WeaponData itemWeaponData = GetComponent<WeaponData>();
 
         if (shooter != null && itemWeaponData != null)
         {
-            // 1. 플레이어에게 이 무기 데이터와 내 메쉬/프리팹을 전달하여 장착!
-            shooter.EquipWeapon(itemWeaponData, gameObject);
+            // 바닥용 오브젝트 대신 손에 쥘 실제 무기 프리팹 전달 (없으면 자기 자신 전달)
+            GameObject prefabToEquip = weaponModelPrefab != null ? weaponModelPrefab : gameObject;
 
-            // 2. 바닥에 있던 이 DroppedItem 오브젝트는 삭제 (플레이어 손에 새 모델이 생성되었으므로)
+            shooter.EquipWeapon(itemWeaponData, prefabToEquip);
+            isEquipped = true;
             Destroy(gameObject);
         }
     }

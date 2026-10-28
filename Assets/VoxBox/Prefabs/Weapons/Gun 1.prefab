@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4339537773532788268}
   - component: {fileID: 6381008787421655905}
   - component: {fileID: 167950167847975574}
+  - component: {fileID: 4709687699827206566}
   m_Layer: 0
   m_Name: Gun 1
   m_TagString: Untagged
@@ -51,7 +52,7 @@ MonoBehaviour:
   grade: 1
   damage: 10
   fireCooldown: 2
-  bulletSpeed: 50
+  bulletSpeed: 200
   isContinuous: 0
   rayExplosionInterval: 1.4
   explosionDamage: 5
@@ -71,6 +72,23 @@ MonoBehaviour:
   itemName: "\uC800\uACA9\uCD1D"
   grade: 1
   bonusDamage: 1
+--- !u!114 &4709687699827206566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014006511955843150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364e3e416e848304c821b011de3c332f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroppedItem
+  rotationSpeed: 50
+  floatSpeed: 2
+  floatHeight: 0.2
+  interactableDistance: 2.5
+  itemData: {fileID: 167950167847975574}
 --- !u!1 &1449235359461244891
 GameObject:
   m_ObjectHideFlags: 0
